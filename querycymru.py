@@ -38,6 +38,7 @@ if __name__ == '__main__':
     cymruObj = libQueryCymru.queryCymru(lookout_config)
     if args['ip'] == False and args['url']==False and args['hashset']==False:
         print ("No Specifics Given, Scraping and Querying for IPs, URLs, and Hashes")
+        print ("Parsing, this could take a few minutes please wait...")
         cymruObj.readIP_file(args['filename'])
         cymruObj.readURL_file(args['filename'])
         cymruObj.readHash_file(args['filename'])

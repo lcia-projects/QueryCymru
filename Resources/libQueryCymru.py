@@ -66,7 +66,18 @@ class queryCymru:
         while line:
             urls=extractor.find_urls(line)
             for item in urls:
-                urlList.append(item)
+                ipTest=str(item)
+                ipTest=ipTest.replace(".","")
+
+                # This is some UGLY code, but i havent found a better way, urlextract pulls IP addresses too, i need
+                # IP addresses in a seperate list.. so to test if its an ip address, i pull the urlextracted string
+                # remove any "." from it.. and try to convert it to an integer.. if it works.. its an ip address
+                # if it fails its a URL.
+                try:
+                    ipTest=int(ipTest)
+                except:
+                    print ("URL:", item)
+                    urlList.append(item)
             line = f.readline()
         f.close()
 
@@ -105,18 +116,16 @@ class queryCymru:
     def queryIP_List(self):
         print ("Submitting IP Job to Team Cymru")
         print ("Flows will be a seperate Job, they are large")
-        print (self.ipList)
+        print ("IP Addresses Found:", len(self.ipList))
 
     def queryIP_List_Flows(self):
         print ("Get Flows")
 
-
     def queryDomain_List(self):
         print("Submitting DNS to Team Cymru")
+        print ("URLs Found:", len(self.urlList))
         print (self.urlList)
 
     def queryHash_List(self):
         print("Submitting Hashes to Team Cymru")
-        print (self.hashList)
-
-
+        print ("Hashes Found:", len(self.hashList))
