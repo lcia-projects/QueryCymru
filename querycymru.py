@@ -14,7 +14,7 @@ def argsParse():
     parser = argparse.ArgumentParser(description='Query Cymru',usage='querycymru.py --filename <filename to process> ', add_help=False)
     parser.add_argument('--filename', help='single file to process')
     parser.add_argument('--ip', action="store_true", help='given input filename contains ip addresses', required=False)
-    parser.add_argument('--dns', action="store_true", help='given input filename contains domain names/web addresses', required=False)
+    parser.add_argument('--url', action="store_true", help='given input filename contains domain names/web addresses', required=False)
     parser.add_argument('--hashset', action="store_true", help='given input filename contains md5/sha1', required=False)
     parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS, help='Show this help message and exit')
     args = vars(parser.parse_args())
@@ -35,16 +35,33 @@ if __name__ == '__main__':
 
     # Process and error check commandline arguments
     args = argsParse()
-    if args['ip'] == False and args['dns']==False and args['hashset']==False:
-        print ("Error, you must select one type of data to process ip, dns, hashset")
-        exit()
+    cymruObj = libQueryCymru.queryCymru(lookout_config)
+    if args['ip'] == False and args['url']==False and args['hashset']==False:
+        print ("No Specifics Given, Scraping and Querying for IPs, URLs, and Hashes")
+        cymruObj.readIP_file(args['filename'])
+        cymruObj.readURL_file(args['filename'])
+        cymruObj.readHash_file(args['filename'])
 
-    cymruObj=libQueryCymru.queryCymru(lookout_config)
-    cymruObj.read_file(args['filename'])
+        cymruObj.queryIP_List()
+        cymruObj.queryDomain_List()
+        cymruObj.queryHash_List()
 
     if args['ip']==True:
+        cymruObj.readIP_file(args['filename'])
         cymruObj.queryIP_List()
-    elif args['dns']==True:
+
+    if args['url']==True:
+        cymruObj.readURL_file(args['filename'])
         cymruObj.queryDomain_List()
-    elif args['hashset']==True:
+
+    if args['hashset']==True:
+        cymruObj.readHash_file(args['filename'])
         cymruObj.queryHash_List()
+
+
+
+
+
+
+
+
