@@ -39,24 +39,15 @@ if __name__ == '__main__':
     if args['ip'] == False and args['url']==False and args['hashset']==False:
         print ("No Specifics Given, Scraping and Querying for IPs, URLs, and Hashes")
         print ("Parsing, this could take a few minutes please wait...")
-        cymruObj.readIP_file(args['filename'])
-        cymruObj.readURL_file(args['filename'])
-        cymruObj.readHash_file(args['filename'])
-
-        cymruObj.queryIP_List()
-        cymruObj.queryDomain_List()
-        cymruObj.queryHash_List()
+        cymruObj.readFile(args['filename'])
 
     if args['ip']==True:
-        cymruObj.readIP_file(args['filename'])
         cymruObj.queryIP_List()
 
     if args['url']==True:
-        cymruObj.readURL_file(args['filename'])
         cymruObj.queryDomain_List()
 
     if args['hashset']==True:
-        cymruObj.readHash_file(args['filename'])
         cymruObj.queryHash_List()
 
 
